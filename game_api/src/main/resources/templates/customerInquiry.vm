@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Temp Password</title>
+<style>
+body {
+margin : 10;
+padding : 10;
+text-align : left;
+
+}
+</style>
+
+</head>
+
+<body>
+<table border=1>
+<tr>
+<td>email </td> <td> ${email} </td>
+</tr>
+<tr>
+<td>subject </td> <td> ${subject} </td>
+</tr>
+<tr>
+<td>body </td> <td> ${body} </td>
+</tr>
+<tr>
+<td>device </td> <td> ${device} </td>
+</tr>
+<tr>
+<td>store </td> <td> ${store} </td>
+</tr>
+<tr>
+<td>storeAccount </td> <td> ${storeAccount} </td>
+</tr>
+<tr>
+<td>productInfo </td> <td> ${productInfo} </td>
+</tr>
+<tr>
+<td>orderDate </td> <td> ${orderDate} </td>
+</tr>
+</table>
+<hr />
+
+</body>
+</html>

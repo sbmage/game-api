@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> Sbmage </title>
+
+<style>
+.header {
+	width:100px;
+	text-align:center;
+}
+</style>
+
+<script language="javascript">
+function goNext() {
+	var form = document.forms[0];
+
+	form.action = "call_page.jsp";
+	form.submit();
+}
+</script>
+</head>
+
+<body>
+<form name="Sbmage" method="post">
+
+<table border="1">
+<tr>
+	<td class="header">URL</td>
+	<td style="width:900px;"><input type="text" name="url" style="width:880px;" value="/ver1_0_0/board/updateNiceBoard.do"></td>
+</tr>
+</table>
+
+<br>
+
+<table border="1">
+<tr>
+	<td class="header">Parameter 1</td>
+	<td class="header"><input type="text" name="paramName" value="encYn" style="width:95px;"></td>
+	<td style="width:193px;"><input type="text" name="paramValue" value="N" style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 2</td>
+	<td class="header"><input type="text" name="paramName" value='team_id' style="width:95px;"></td>
+	<td><input type="text" name="paramValue" value='70' style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 6</td>
+	<td class="header"><input type="text" name="paramName" value='user_id' style="width:95px;"></td>
+	<td><input type="text" name="paramValue" value='126' style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 7</td>
+	<td class="header"><input type="text" name="paramName" value='email' style="width:95px;"></td>
+	<td><input type="text" name="paramValue" value='126@126.com' style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 8</td>
+	<td class="header"><input type="text" name="paramName" value='platform_id'  style="width:95px;"></td>
+	<td><input type="text" name="paramValue" value='1' style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 9</td>
+	<td class="header"><input type="text" name="paramName" value='seq_no' style="width:95px;"></td>
+	<td><input type="text" name="paramValue" value='1811' style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 10</td>
+	<td class="header"><input type="text" name="paramName" value='writer_id' style="width:95px;"></td>
+	<td><input type="text" name="paramValue" style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 11</td>
+	<td class="header"><input type="text" name="paramName" value='board_id' style="width:95px;"></td>
+	<td><input type="text" name="paramValue" style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 12</td>
+	<td class="header"><input type="text" name="paramName" style="width:95px;"></td>
+	<td><input type="text" name="paramValue" style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 13</td>
+	<td class="header"><input type="text" name="paramName" style="width:95px;"></td>
+	<td><input type="text" name="paramValue" style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 14</td>
+	<td class="header"><input type="text" name="paramName" style="width:95px;"></td>
+	<td><input type="text" name="paramValue" style="width:175px;"></td>
+</tr>
+<tr>
+	<td class="header">Parameter 15</td>
+	<td class="header"><input type="text" name="paramName" style="width:95px;"></td>
+	<td><input type="text" name="paramValue" style="width:175px;"></td>
+</tr>
+</table>
+
+<br>
+
+<div style="width:400px;text-align:center;">
+	<input type="button" value="SUBMIT" onclick="goNext();">
+</div>
+
+</form>
+</body>
+</html>

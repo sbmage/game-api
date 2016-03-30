@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sbmage.dao.mapper.MarketMapper">
+	<parameterMap id="PARAM_MAP_APPLE" type="map">
+ 		<parameter property="user_id"  			mode="IN" />
+ 		<parameter property="market_item_id"  	mode="IN" />
+ 		<parameter property="platform_id"		mode="IN" />
+ 		<parameter property="quantity"  		mode="IN" />
+ 		<parameter property="product_id"  		mode="IN" />
+ 		<parameter property="transaction_id"	mode="IN" />
+ 		<parameter property="purchase_date"		mode="IN" />
+ 		<parameter property="app_item_id"  		mode="IN" />
+ 		<parameter property="b_id"				mode="IN" />
+ 		<parameter property="b_vrs"				mode="IN" />
+ 	</parameterMap>
+
+ 	<parameterMap id="PARAM_MAP_GOOGLE" type="map">
+ 		<parameter property="user_id"  			mode="IN" />
+ 		<parameter property="market_item_id"  	mode="IN" />
+ 		<parameter property="platform_id"		mode="IN" />
+ 		<parameter property="order_id"  		mode="IN" />
+ 		<parameter property="package_name"  	mode="IN" />
+ 		<parameter property="product_id"		mode="IN" />
+ 		<parameter property="purchase_time"		mode="IN" />
+ 		<parameter property="purchase_state"	mode="IN" />
+ 		<parameter property="purchase_token"	mode="IN" />
+ 	</parameterMap>
+
+	<select id="buySoftCash" parameterType="map" resultType="resultMap">
+		{CALL SP_BUY_SOFT_CASH (
+			#{user_id},
+			#{market_item_id}
+		)}
+	</select>
+
+	<select id="buyHardCashForApple" parameterMap="PARAM_MAP_APPLE" resultType="resultMap">
+		{CALL SP_BUY_HARD_CASH_FOR_APPLE (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+	</select>	
+
+	<select id="buyHardCashForGoogle" parameterMap="PARAM_MAP_GOOGLE" resultType="resultMap">
+		{CALL SP_BUY_HARD_CASH_FOR_GOOGLE (?, ?, ?, ?, ?, ?, ?, ?, ?)}
+	</select>
+	<select id="getHardCashHistoryForEvent" parameterType="map" resultType="resultMap">
+		{CALL SP_GET_HARD_CASH_HISTORY_FOR_EVENT (
+		#{user_id},
+		#{platform_id}
+		)}
+	</select>		
+</mapper>

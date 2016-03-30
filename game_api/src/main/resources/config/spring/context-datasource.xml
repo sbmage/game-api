@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd       
+	   http://www.springframework.org/schema/tx 
+	   http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+	   http://www.springframework.org/schema/util
+	   http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	   ">
+
+	<!-- datasource -->
+	<bean id="gdbDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="#{jdbc['jdbc.url']}" />
+		<property name="username" value="#{jdbc['jdbc.username']}" />
+		<property name="password" value="#{jdbc['jdbc.password']}" />
+		<property name="initialSize" value="40" />
+		<property name="maxActive" value="64" />
+		<property name="maxIdle" value="64" />
+		<property name="minIdle" value="40" />
+		<property name="maxWait" value="10000" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="testOnBorrow" value="false" />
+	</bean> 	
+	<tx:annotation-driven transaction-manager="gdbTxManager"/>
+
+	<tx:advice id="gdbTxAdvice" transaction-manager="gdbTxManager">
+		<tx:attributes>
+			<!--
+			<tx:method name="insert*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="update*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="remove*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="delete*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+			-->
+			<tx:method name="*" rollback-for="Exception" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor id="gdbManagerTx" advice-ref="gdbTxAdvice" pointcut="execution(* *..business..*ServiceImpl.*(..))" />
+	</aop:config>
+	
+	<bean id="gdbTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="gdbDataSource" />
+	</bean>
+
+	<bean id="gdbSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:configLocation="classpath:/config/mybatis/sql-map-config-gdb.xml"
+		p:typeAliases="com.sbmage.web.model.ResultMap"
+		p:dataSource-ref="gdbDataSource" />
+
+	<bean id="gdbSqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg index="0" ref="gdbSqlSessionFactory" />
+	</bean>
+
+
+</beans>

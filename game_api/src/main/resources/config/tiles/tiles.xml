@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC    
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"    
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+	
+<tiles-definitions>
+	<!-- = Abstract root definition ============ -->     
+	    
+	<!-- layout default -->
+	<definition name=".default" template="/templates/default/layout.jsp">
+		<put-attribute name="header"    value="/templates/default/header.jsp" />
+		<put-attribute name="left"    	value="/templates/default/left.jsp" />
+		<put-attribute name="body" value="/templates/default/blank.jsp" />
+		<put-attribute name="footer"    value="/templates/default/footer.jsp" />
+	</definition>       
+	
+	
+	<!-- default -->
+	<definition name="*" extends=".default">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+	<definition name="*/*" extends=".default">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*/*" extends=".default">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+	
+	
+	<definition name="login" template="/WEB-INF/jsp/login.jsp">
+	</definition>
+</tiles-definitions>

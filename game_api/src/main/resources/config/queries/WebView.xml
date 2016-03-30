@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sbmage.dao.mapper.WebViewMapper">
+
+	<select id="getFaq" resultType="resultMap">
+		SELECT title, body, update_dt from web_faq
+		order by update_dt desc
+	</select>
+
+	<select id="getContent" parameterType="int" resultType="resultMap">
+		SELECT title, body, DATE_FORMAT(update_dt,'%Y-%m-%d %h:%i') AS update_dt from web_content
+		where ID=#{contentNo}
+	</select>
+
+	<select id="getNotice" resultType="resultMap">
+		SELECT title, web_content_id, update_dt from web_notice
+		WHERE use_yn='Y'
+		order by update_dt desc, id asc
+		limit 10
+	</select>
+
+	<select id="getGames" resultType="resultMap">
+		SELECT image_url, link_url FROM kakao_soccer.web_games
+		where use_yn='Y'
+		AND start_dt <![CDATA[<]]>
+		NOW()
+		AND end_dt <![CDATA[>]]>
+		NOW()
+	</select>
+
+	<select id="getEvent" resultType="resultMap">
+		SELECT image_url, web_content_id FROM kakao_soccer.web_event
+		where use_yn='Y'
+		AND start_dt <![CDATA[<]]>
+		NOW()
+		AND end_dt <![CDATA[>]]>
+		NOW()
+	</select>
+
+	<select id="getHelp" resultType="resultMap">
+		SELECT title, web_content_id, update_dt from web_help
+		WHERE use_yn='Y'
+		order by id
+	</select>
+
+	<select id="couponUse" resultType="resultMap">
+		{ CALL SP_COUPON_USE(#{userId}, #{couponKey}) }
+	</select>
+
+	<select id="dailyCheck" resultType="resultMap">
+		SELECT
+		A.SEQ_NO,
+		B.DAY,
+		B.REWARD_TYPE,
+		B.ITEM_ID,
+		B.ITEM_NAME,
+		B.COUNT,
+		B.img_a,
+		B.img_b,
+		B.img_result,
+		EXISTS(SELECT * FROM USER_DAILY_ATTENDANCE WHERE USER_ID=#{userId} AND SEQ_NO=A.SEQ_NO AND `DAY`=B.`DAY`) AS CHECKED
+		FROM DAILY_ATTENDANCE A JOIN DAILY_ATTENDANCE_REWARD B
+		ON A.SEQ_NO = B.SEQ_NO
+		WHERE NOW() BETWEEN A.START_DT AND A.END_DT
+	</select>
+	<select id="dailyCheckUse" resultType="resultMap">
+		{
+		CALL SP_RECEIVE_DAILY_ATTENDANCE_REWARD(#{userId})
+		}
+	</select>
+	<select id="isCheckedToday" resultType="boolean">
+		SELECT EXISTS(
+		SELECT 0 FROM USER_DAILY_ATTENDANCE
+		WHERE USER_ID=#{userId}
+		AND SEQ_NO=(SELECT IFNULL(SEQ_NO,0) AS SEQ_NO FROM DAILY_ATTENDANCE WHERE NOW() BETWEEN START_DT AND END_DT LIMIT 1)
+		AND RECEIVE_DT = DATE(NOW())
+		)
+	</select>
+
+	<insert id="customerNormalSave">
+		INSERT INTO `web_inquiry`
+		(`kakao_id`, `email`, `subject`, `body`, `device`)
+		VALUES (#{0}, #{1}, #{2}, #{3}, #{4})
+	</insert>
+
+	<insert id="customerRefundSave">
+		INSERT INTO `web_inquiry`
+		(`kakao_id`, `email`, `subject`, `body`, `device`, `store_account`, `product_info`, `order_date`, `store`)
+		VALUES (#{0}, #{1}, #{2}, #{3}, #{4}, #{5}, #{6}, #{7}, #{8})
+	</insert>
+	<select id="getRedTimesUrl" resultType="string">
+		select url from web_redtimes order by create_dt desc limit 1;
+	</select>
+</mapper>

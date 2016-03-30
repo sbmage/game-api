@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sbmage.dao.mapper.BaseDataMapper">
+	<select id="codeInfoList" parameterType="string" resultType="resultMap">
+	    {CALL SP_CODE_INFO ( #{is_parent} )}
+	</select>
+
+	<select id="marketList" resultType="resultMap">
+	    {CALL SP_MARKET}
+	</select>
+
+	<select id="playerList" resultType="resultMap">
+	    {CALL SP_PLAYER}
+	</select>
+
+	<select id="playerLevelList" resultType="resultMap">
+	    {CALL SP_PLAYER_LEVEL}
+	</select>
+
+	<select id="playerGradeList" resultType="resultMap">
+	    {CALL SP_PLAYER_GRADE}
+	</select>
+
+	<select id="playerSkillList" resultType="resultMap">
+	    {CALL SP_PLAYER_SKILL}
+	</select>
+
+	<select id="gameSceneList" resultType="resultMap">
+	    {CALL SP_GAME_SCENE}
+	</select>
+
+	<select id="itemList" resultType="resultMap">
+		{CALL SP_ITEM}
+	</select>
+
+	<select id="scoutList" resultType="resultMap">
+		{CALL SP_SCOUT}
+	</select>
+
+	<select id="dailyEventList" resultType="resultMap">
+		{CALL SP_BM_DAILY_EVENT}
+	</select>
+
+	<select id="dailyEventRewardList" resultType="resultMap">
+		{CALL SP_BM_DAILY_EVENT_REWARD}
+	</select>
+
+	<insert id="insertPlayer" parameterType="map">
+		INSERT INTO PLAYER (
+			POSITION,
+			PLAYER_ID,
+			HEIGHT,
+			WEIGHT,
+			BIRTHDAY,
+			PLAYER_NAME
+		) VALUES (
+			#{position},
+			#{player_id},
+			#{height},
+			#{weight},
+			#{birthday},
+			#{player_name}
+		)
+	</insert>
+
+	<insert id="insertPlayerGrade" parameterType="map">
+		INSERT INTO PLAYER_GRADE (
+			GRADE,
+			PLAYER_ID
+		) VALUES (
+			#{grade},
+			#{player_id}
+		)
+	</insert>
+
+	<update id="updatePlayerBaseStat" parameterType="map">
+		UPDATE PLAYER_GRADE SET
+			BASE_POWER			= #{power},
+			BASE_SHOOT			= #{shoot},
+			BASE_SPEED			= #{speed},
+			BASE_PASS			= #{pass},
+			BASE_DEFENSE		= #{defense},
+			BASE_DRIBLE			= #{drible},
+			BASE_GK				= #{gk},
+			BASE_HARDWORK		= #{hardwork},
+			BASE_FIGHT_SPIRIT	= #{fight_spirit},
+			BASE_CLEVERNESS		= #{cleverness},
+			BASE_CREATIVITY		= #{creativity},
+			BASE_JUMP			= #{jump}
+		WHERE PLAYER_ID = (SELECT PLAYER_ID FROM PLAYER WHERE PLAYER_NAME = #{player_name})
+			AND GRADE = #{grade}
+	</update>
+	
+	<update id="updatePlayerMaxStat" parameterType="map">
+		UPDATE PLAYER_GRADE SET
+			MAX_POWER			= #{power},
+			MAX_SHOOT			= #{shoot},
+			MAX_SPEED			= #{speed},
+			MAX_PASS			= #{pass},
+			MAX_DEFENSE			= #{defense},
+			MAX_DRIBLE			= #{drible},
+			MAX_GK				= #{gk},
+			MAX_HARDWORK		= #{hardwork},
+			MAX_FIGHT_SPIRIT	= #{fight_spirit},
+			MAX_CLEVERNESS		= #{cleverness},
+			MAX_CREATIVITY		= #{creativity},
+			MAX_JUMP			= #{jump}
+		WHERE PLAYER_ID = (SELECT PLAYER_ID FROM PLAYER WHERE PLAYER_NAME = #{player_name})
+			AND GRADE = #{grade}
+	</update>
+
+	<insert id="insertPlayerSkill" parameterType="map">
+		INSERT INTO PLAYER_SKILL VALUES (
+			#{type},
+			#{category},
+			#{game_scene},
+			#{rank},
+			#{sort_order},
+			#{level},
+			#{skill_id},
+			#{req_skill_type},
+			#{req_hidden_skill_type},
+			#{req_skill_value},
+			#{req_hidden_skill_value},
+			#{skill_name}
+		)
+	</insert>
+
+	<insert id="insertPlayerAptitude" parameterType="map">
+		INSERT INTO PLAYER_POSITION_APTITUDE VALUES (
+			#{gk},
+			#{sw},
+			#{am},
+			#{cf},
+			#{cb},
+			#{dm},
+			#{sm},
+			#{sb},
+			#{wb},
+			#{wf},
+			#{cm},
+			#{ls},
+			#{rs},
+			(SELECT PLAYER_ID FROM PLAYER WHERE PLAYER_NAME = #{player_name}) 
+		)
+	</insert>
+	
+	<insert id="insertPlayerLevel" parameterType="map">
+		INSERT INTO PLAYER_LEVEL VALUES (
+			#{level},
+			#{hp},
+			#{xp}
+		)
+	</insert>
+
+	<insert id="insertGameScene" parameterType="map">
+		INSERT INTO GAME_SCENE VALUES (
+			#{scene_id},
+			#{seq_no},
+			(SELECT CODE_ID FROM CODE_INFO WHERE GROUP_ID = 14 AND CODE_NAME = #{command}),
+			(SELECT CODE_ID FROM CODE_INFO WHERE GROUP_ID = 15 AND DESCRIPTION = #{location}),
+			#{attribute_type},
+			#{player},
+			#{attribute},
+			#{text}
+		)
+	</insert>
+	
+</mapper>
